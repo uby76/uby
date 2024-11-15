@@ -14,7 +14,7 @@
 process_csv_files <- function(input_dir, intensity_output, combined_output, meta_file) {
   # Installation of dependency packages
   install_dependencies <- function() {
-    # 安装 devtools 包
+    # Install the devtools package
     if (!requireNamespace("devtools", quietly = TRUE)) {
       install.packages("devtools")
     }

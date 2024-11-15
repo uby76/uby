@@ -1,6 +1,6 @@
 Package: uby
 Title: Data pre-processing in FTICRMS
-Version: 0.0.0.9000
+Version: 0.10.1
 Authors@R: 
     person("Jianwei", "Li", , "jianwei363@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5738-9083"))

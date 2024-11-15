@@ -1,8 +1,9 @@
 #' Process, Merge, and Analyze CSV Files
-#'
+#' jianwei363@gmail.com
 #' This function processes all CSV files in a specified directory, merges intensity data,
 #' combines additional information columns, and integrates the data into a peakData object
 #' for further analysis.
+#' R version:4.3.2
 #'
 #' @param input_dir Character. Path to the directory containing CSV files.
 #' @param intensity_output Character. Path to save the merged intensity data CSV.
@@ -11,6 +12,36 @@
 #' @return A peakData object for further analysis.
 #' @export
 process_csv_files <- function(input_dir, intensity_output, combined_output, meta_file) {
+  # 安装依赖包
+  install_dependencies <- function() {
+    # 安装 devtools 包
+    if (!requireNamespace("devtools", quietly = TRUE)) {
+      install.packages("devtools")
+    }
+    
+    # 安装必要的包
+    required_packages <- c("readr", "dplyr", "tools", "ftmsRanalysis", "uby")
+    
+    for (pkg in required_packages) {
+      if (!requireNamespace(pkg, quietly = TRUE)) {
+        install.packages(pkg)
+      }
+    }
+    
+    # 安装 ftmsRanalysis 包的特定版本
+    if (!requireNamespace("ftmsRanalysis", quietly = TRUE)) {
+      devtools::install_github("EMSL-Computing/ftmsRanalysis@1.0.0")
+    }
+    
+    # 安装 uby 包
+    if (!requireNamespace("uby", quietly = TRUE)) {
+      install.packages("uby")
+    }
+  }
+  
+  # 安装依赖包
+  install_dependencies()
+  
   # 加载必要的包
   library(readr)
   library(dplyr)

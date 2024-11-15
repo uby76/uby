@@ -9,10 +9,10 @@
 library(uby)
 
 peakObj <- process_csv_files(
-  input_dir = "E:/data/test", #Import all data: all data
-  meta_file = "E:/data/test/meta/meta.csv",#Sample Data
-  intensity_output = "E:/data/test/Intensity_data.csv",#Expression Data
-  combined_output = "E:/data/test/Infor_data.csv"#Molecular Identification Data
+  input_dir = "E:/data/test_data", #Import all data: all data
+  meta_file = "E:/data/test_data/meta/meta.csv",#Sample Data
+  intensity_output = "E:/data/test_data/output/Intensity_data.csv",#Expression Data
+  combined_output = "E:/data/test_data/output/Infor_data.csv"#Molecular Identification Data
 )
 ```
 

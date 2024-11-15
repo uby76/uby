@@ -1,12 +1,13 @@
 # FTICRMS data
 
-# Data preprocessing for FTICRMS is used to generate the files needed for ftmsRanalysis and metabodirect.
+# Data preprocessing for FTICRMS is used to generate the files needed for ftmsRanalysis(Analysis and visualization tools for FT-MS data • ftmsRanalysis) and metabodirect.
 
 
+
+```R
 #R version: 4.3.2
 # install.packages("devtools")
-devtools::install_github("uby76/uby", force = TRUE)
-
+#devtools::install_github("uby76/uby", force = TRUE)
 library(uby)
 
 peakObj <- process_csv_files(
@@ -15,3 +16,5 @@ peakObj <- process_csv_files(
   intensity_output = "E:/data/test/Intensity_data.csv",#Expression Data
   combined_output = "E:/data/test/Infor_data.csv"#Molecular Identification Data
 )
+```
+

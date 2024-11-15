@@ -1,8 +1,6 @@
 # FTICRMS data
 
-# Data preprocessing for FTICRMS is used to generate the files needed for ftmsRanalysis(Analysis and visualization tools for FT-MS data • ftmsRanalysis) and metabodirect.
-
-
+# Data preprocessing for FTICRMS is used to generate the files needed for ftmsRanalysis(https://emsl-computing.github.io/ftmsRanalysis/index.html) and metabodirect.
 
 ```R
 #R version: 4.3.2

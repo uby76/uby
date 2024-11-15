@@ -12,14 +12,14 @@
 #' @return A peakData object for further analysis.
 #' @export
 process_csv_files <- function(input_dir, intensity_output, combined_output, meta_file) {
-  # 安装依赖包
+  # Installation of dependency packages
   install_dependencies <- function() {
     # 安装 devtools 包
     if (!requireNamespace("devtools", quietly = TRUE)) {
       install.packages("devtools")
     }
     
-    # 安装必要的包
+    # Install the necessary packages
     required_packages <- c("readr", "dplyr", "tools", "ftmsRanalysis", "uby")
     
     for (pkg in required_packages) {
@@ -28,42 +28,42 @@ process_csv_files <- function(input_dir, intensity_output, combined_output, meta
       }
     }
     
-    # 安装 ftmsRanalysis 包的特定版本
+    # Installing a specific version of the ftmsRanalysis package
     if (!requireNamespace("ftmsRanalysis", quietly = TRUE)) {
       devtools::install_github("EMSL-Computing/ftmsRanalysis@1.0.0")
     }
     
-    # 安装 uby 包
+    # Installing the uby package
     if (!requireNamespace("uby", quietly = TRUE)) {
       install.packages("uby")
     }
   }
   
-  # 安装依赖包
+  # Installation of dependency packages
   install_dependencies()
   
-  # 加载必要的包
+  # Load the necessary packages
   library(readr)
   library(dplyr)
   library(tools)
   library(ftmsRanalysis)
   
-  # 设置工作目录
+  # Setting up the working directory
   setwd(input_dir)
   
-  # 列出文件夹中的所有 CSV 文件
+  # List all CSV files in a folder
   file_list <- list.files(pattern = "\\.csv$")
   
-  # 初始化空的数据框
+  # Initialize an empty data frame
   merged_data <- NULL
   combined_data <- NULL
   
-  # 遍历每个文件
+  # Iterate through each file
   for (file in file_list) {
-    # 读取每个 CSV 文件
+    # Read each CSV file
     sample_data <- read_csv(file, show_col_types = FALSE)
     
-    # 处理 merged_data
+    # Processing merged_data
     intensity_col_name <- paste0(file_path_sans_ext(file), "")
     if ("Intensity" %in% colnames(sample_data)) {
       sample_data_merged <- sample_data %>%
@@ -77,7 +77,7 @@ process_csv_files <- function(input_dir, intensity_output, combined_output, meta
       }
     }
     
-    # 处理 combined_data
+    # Processing combined_data
     file_name <- file_path_sans_ext(file)
     if (ncol(sample_data) > 2) {
       sample_data_combined <- sample_data %>%
@@ -87,33 +87,33 @@ process_csv_files <- function(input_dir, intensity_output, combined_output, meta
     }
   }
   
-  # 将 NA 值替换为 0
+  # Replace NA value with 0
   merged_data[is.na(merged_data)] <- 0
   
-  # 保存合并后的数据
+  # Save merged data
   write.csv(merged_data, intensity_output, row.names = FALSE)
   
-  # 去重并保存其他信息数据
+  # De-duplication and preservation of other information data
   combined_data <- combined_data %>% distinct(Mass, .keep_all = TRUE)
   write.csv(combined_data, combined_output, row.names = FALSE)
   
-  # 导入数据
-  data_fticrms <- read.csv(intensity_output) # 每一个样本的强度数据
-  e_fticrms <- read.csv(combined_output)    # 质谱的信息
-  emeta <- read.csv(meta_file)              # 元数据文件
+  # Import data
+  data_fticrms <- read.csv(intensity_output) # Intensity data for each sample
+  e_fticrms <- read.csv(combined_output)    # Information on Mass Spectrometry
+  emeta <- read.csv(meta_file)              # metadata file
   
-  # 构建 e_fticrmsdata 数据框
+  # Build e_fticrmsdata data frame
   columns_to_extract <- c("Mass", "NeutralMass", "Error", "C", "H", "O", "N", "C13", "S", "P", "Na")
   e_fticrmsdata <- e_fticrms %>%
     select(all_of(intersect(columns_to_extract, names(e_fticrms)))) %>%
     bind_cols(
       setNames(lapply(setdiff(columns_to_extract, names(e_fticrms)), function(col) {
-        rep(0, nrow(e_fticrms))  # 长度为行数，值为 0
+        rep(0, nrow(e_fticrms))  # The length is the number of rows and the value is 0
       }), setdiff(columns_to_extract, names(e_fticrms)))
     ) %>%
     select(all_of(columns_to_extract))
   
-  # 创建 peakData 对象
+  # Create peakData object
   peakObj <- as.peakData(
     e_data = data_fticrms,
     f_data = emeta,
